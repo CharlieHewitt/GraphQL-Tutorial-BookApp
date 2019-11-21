@@ -7,14 +7,18 @@ const {
   GraphQLString,
   GraphQLSchema,
   GraphQLID,
-  GraphQLInt
+  GraphQLInt,
+  GraphQLList
 } = graphql;
 
 // temporary data while not connected to db
 let books = [
   { name: 'Name of the Wind', genre: 'Fantasy', id: '1', authorId: '1' },
   { name: 'The Final Empire', genre: 'Fantasy', id: '2', authorId: '2' },
-  { name: 'The Long Earth', genre: 'Sci-Fi', id: '3', authorId: '3' }
+  { name: 'The Long Earth', genre: 'Sci-Fi', id: '3', authorId: '3' },
+  { name: 'The Hero of Ages', genre: 'Fantasy', id: '4', authorId: '2' },
+  { name: 'The Colour of Magic', genre: 'Fantasy', id: '5', authorId: '3' },
+  { name: 'The Light Fantastic', genre: 'Fantasy', id: '6', authorId: '3' }
 ];
 
 let authors = [
@@ -23,7 +27,11 @@ let authors = [
   { name: 'Terry Pratchett', age: 66, id: '3' }
 ];
 
-// takes an object as param
+/*
+  Object Types, fields is wrapped inside a function because types need to be defined 
+  (linear read through file, functions not being executed until after the file has been ran)
+*/
+
 const BookType = new GraphQLObjectType({
   name: 'Book',
   fields: () => ({
@@ -45,7 +53,13 @@ const AuthorType = new GraphQLObjectType({
   fields: () => ({
     id: { type: GraphQLID },
     name: { type: GraphQLString },
-    age: { type: GraphQLInt }
+    age: { type: GraphQLInt },
+    books: {
+      type: new GraphQLList(BookType),
+      resolve(parent, args) {
+        return books.filter(book => book.authorId === parent.id);
+      }
+    }
   })
 });
 

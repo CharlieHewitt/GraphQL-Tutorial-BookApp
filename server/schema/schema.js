@@ -1,5 +1,6 @@
 const graphql = require('graphql');
 
+// import Mongoose data Models
 const Book = require('../models/book');
 const Author = require('../models/author');
 

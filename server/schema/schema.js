@@ -1,5 +1,7 @@
 const graphql = require('graphql');
-const lodash = require('lodash');
+
+const Book = require('../models/book');
+const Author = require('../models/author');
 
 // grab { ... } from graphql
 const {
@@ -12,20 +14,20 @@ const {
 } = graphql;
 
 // temporary data while not connected to db
-let books = [
-  { name: 'Name of the Wind', genre: 'Fantasy', id: '1', authorId: '1' },
-  { name: 'The Final Empire', genre: 'Fantasy', id: '2', authorId: '2' },
-  { name: 'The Long Earth', genre: 'Sci-Fi', id: '3', authorId: '3' },
-  { name: 'The Hero of Ages', genre: 'Fantasy', id: '4', authorId: '2' },
-  { name: 'The Colour of Magic', genre: 'Fantasy', id: '5', authorId: '3' },
-  { name: 'The Light Fantastic', genre: 'Fantasy', id: '6', authorId: '3' }
-];
+// let books = [
+//   { name: 'Name of the Wind', genre: 'Fantasy', id: '1', authorId: '1' },
+//   { name: 'The Final Empire', genre: 'Fantasy', id: '2', authorId: '2' },
+//   { name: 'The Long Earth', genre: 'Sci-Fi', id: '3', authorId: '3' },
+//   { name: 'The Hero of Ages', genre: 'Fantasy', id: '4', authorId: '2' },
+//   { name: 'The Colour of Magic', genre: 'Fantasy', id: '5', authorId: '3' },
+//   { name: 'The Light Fantastic', genre: 'Fantasy', id: '6', authorId: '3' }
+// ];
 
-let authors = [
-  { name: 'Patrick Rothfuss', age: 44, id: '1' },
-  { name: 'Brandon Sanderson', age: 42, id: '2' },
-  { name: 'Terry Pratchett', age: 66, id: '3' }
-];
+// let authors = [
+//   { name: 'Patrick Rothfuss', age: 44, id: '1' },
+//   { name: 'Brandon Sanderson', age: 42, id: '2' },
+//   { name: 'Terry Pratchett', age: 66, id: '3' }
+// ];
 
 /*
   Object Types, fields is wrapped inside a function because types need to be defined 
@@ -42,7 +44,7 @@ const BookType = new GraphQLObjectType({
       type: AuthorType,
       resolve(parent, args) {
         // console.log(parent);
-        return authors.find(author => author.id === parent.authorId);
+        //return authors.find(author => author.id === parent.authorId);
       }
     }
   })
@@ -57,7 +59,7 @@ const AuthorType = new GraphQLObjectType({
     books: {
       type: new GraphQLList(BookType),
       resolve(parent, args) {
-        return books.filter(book => book.authorId === parent.id);
+        //return books.filter(book => book.authorId === parent.id);
       }
     }
   })
